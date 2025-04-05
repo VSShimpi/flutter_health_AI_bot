@@ -2,8 +2,8 @@
 
 A beautiful, responsive Health Chat Bot built using **Flutter** and powered by **Google Gemini API**. It provides personalized wellness tips, focus hacks, yoga benefits, and more — all through conversational AI!
 
----![Screenshot (14)](https://github.com/user-attachments/assets/77cfd033-fdfa-441a-b4fc-a836ab4d33fc)
-   ![Screenshot (15)](https://github.com/user-attachments/assets/32ba8dc7-658e-4445-bb0f-76b527667203)
+![Screenshot (14)](https://github.com/user-attachments/assets/7e0fe9ed-1a8e-4b0d-ae4d-9628a02d0b85)
+![Screenshot (15)](https://github.com/user-attachments/assets/43ba7ae7-4321-4040-88da-8ec7dc5d789d)
 
 
 ## 🚀 Features
