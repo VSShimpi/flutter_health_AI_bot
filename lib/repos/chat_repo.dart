@@ -5,7 +5,8 @@ import 'package:health_bot/models/chat_message_model.dart';
 import 'package:health_bot/utils/constants.dart';
 
 class HealthRepo {
-  static chatTextGenerationRepo(List<ChatMessageModel> previousMessages) async {
+  static Future<String> chatTextGenerationRepo(
+      List<ChatMessageModel> previousMessages) async {
     try {
       Dio dio = Dio();
 
@@ -28,10 +29,14 @@ class HealthRepo {
             }
           });
 
-      print("chat response ${response.data}");
-      log(response.toString());
+      if (response.statusCode! >= 200 && response.statusCode! < 300) {
+        return response
+            .data['candidates'].first['content']['parts'].first['text'];
+      }
+      return '';
     } catch (e) {
       log(e.toString());
     }
+    return '';
   }
 }

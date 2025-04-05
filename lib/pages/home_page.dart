@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_bot/bloc/chat_bloc.dart';
 import 'package:health_bot/models/chat_message_model.dart';
+import 'package:lottie/lottie.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
                           image: AssetImage('assets/health_bg.jpg'),
                           fit: BoxFit.cover)),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -60,17 +62,58 @@ class _HomePageState extends State<HomePage> {
                         itemCount: messages.length,
                         itemBuilder: (context, index) {
                           return Container(
-                            margin: const EdgeInsets.only(bottom: 12.0),
+                              margin: const EdgeInsets.only(
+                                  bottom: 12.0, left: 16, right: 16 ),
                               padding: EdgeInsets.all(16.0),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16.0),
                                   color: Colors.teal.withOpacity(0.2)),
-                              child: Text(
-                                messages[index].parts.first.text,
-                                style: TextStyle(color: Colors.black),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    messages[index].role == "user"
+                                        ? "User"
+                                        : "Health Bot",
+                                    style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight:
+                                            messages[index].role == "user"
+                                                ? FontWeight.normal
+                                                : FontWeight.bold,
+                                        color: messages[index].role == "user"
+                                            ? Colors.teal
+                                            : Colors.white),
+                                  ),
+                                  const SizedBox(
+                                    height: 12.0,
+                                  ),
+                                  Text(
+                                    messages[index].parts.first.text,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
                               ));
                         },
                       )),
+                      if (chatBloc.generating)
+                        Row(
+                          children: [
+                            Container(
+                                height: 100,
+                                width: 100,
+                                child: Lottie.asset('assets/loader.json')),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            // Text(
+                            //   'Loading...',
+                            //   style: TextStyle(color: Colors.tealAccent),
+                            // )
+                          ],
+                        ),
                       Container(
                         padding:
                             EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -86,6 +129,9 @@ class _HomePageState extends State<HomePage> {
                                   borderRadius: BorderRadius.circular(100),
                                 ),
                                 fillColor: Colors.white,
+                                hintText: "Ask Something from AI",
+                                hintStyle:
+                                    TextStyle(color: Colors.grey.shade400),
                                 filled: true,
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(100),
