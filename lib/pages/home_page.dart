@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:health_bot/bloc/chat_bloc.dart';
 import 'package:health_bot/models/chat_message_model.dart';
+import 'package:health_bot/utils/parser.dart';
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -61,9 +64,10 @@ class _HomePageState extends State<HomePage> {
                           child: ListView.builder(
                         itemCount: messages.length,
                         itemBuilder: (context, index) {
+                          final message = state.messages[index];
                           return Container(
                               margin: const EdgeInsets.only(
-                                  bottom: 12.0, left: 16, right: 16 ),
+                                  bottom: 12.0, left: 16, right: 16),
                               padding: EdgeInsets.all(16.0),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16.0),
@@ -72,28 +76,61 @@ class _HomePageState extends State<HomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    messages[index].role == "user"
+                                    message.role == "user"
                                         ? "User"
                                         : "Health Bot",
                                     style: TextStyle(
                                         fontSize: 14.0,
-                                        fontWeight:
-                                            messages[index].role == "user"
-                                                ? FontWeight.normal
-                                                : FontWeight.bold,
-                                        color: messages[index].role == "user"
+                                        fontWeight: message.role == "user"
+                                            ? FontWeight.normal
+                                            : FontWeight.bold,
+                                        color: message.role == "user"
                                             ? Colors.teal
                                             : Colors.white),
                                   ),
                                   const SizedBox(
                                     height: 12.0,
                                   ),
-                                  Text(
-                                    messages[index].parts.first.text,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
+                                  message.role == "model"
+                                      ? Card(
+                                          elevation: 2,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          margin:
+                                              EdgeInsets.symmetric(vertical: 6),
+                                          color: Colors.white.withOpacity(0.95),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: MarkdownBody(
+                                              data: message.parts.first.text,
+                                              styleSheet: MarkdownStyleSheet(
+                                                p: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.black),
+                                                strong: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                listBullet: TextStyle(
+                                                    color: Colors.teal),
+                                              ),
+                                              onTapLink: (text, href, title) {
+                                                if (href != null) {
+                                                  launchUrl(Uri.parse(href));
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                        )
+                                      : Text(
+                                          message.parts.first.text,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
                                 ],
                               ));
                         },
@@ -108,10 +145,6 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(
                               width: 20,
                             ),
-                            // Text(
-                            //   'Loading...',
-                            //   style: TextStyle(color: Colors.tealAccent),
-                            // )
                           ],
                         ),
                       Container(
