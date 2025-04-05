@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:health_bot/bloc/chat_bloc.dart';
 import 'package:health_bot/models/chat_message_model.dart';
-import 'package:health_bot/utils/parser.dart';
 import 'package:lottie/lottie.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -71,6 +69,7 @@ class _HomePageState extends State<HomePage> {
                               padding: EdgeInsets.all(16.0),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16.0),
+                                  // ignore: deprecated_member_use
                                   color: Colors.teal.withOpacity(0.2)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,6 +99,7 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                           margin:
                                               EdgeInsets.symmetric(vertical: 6),
+                                          // ignore: deprecated_member_use
                                           color: Colors.white.withOpacity(0.95),
                                           child: Padding(
                                             padding: const EdgeInsets.all(12.0),
@@ -115,11 +115,6 @@ class _HomePageState extends State<HomePage> {
                                                 listBullet: TextStyle(
                                                     color: Colors.teal),
                                               ),
-                                              onTapLink: (text, href, title) {
-                                                if (href != null) {
-                                                  launchUrl(Uri.parse(href));
-                                                }
-                                              },
                                             ),
                                           ),
                                         )
