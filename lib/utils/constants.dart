@@ -1,1 +1,1 @@
-const API_KEY = "AIzaSyCC7XoMZGdUk06SNsCPQNmCYW4NQt6qvXU";
+const API_KEY = "********" // Past your API Key here;
